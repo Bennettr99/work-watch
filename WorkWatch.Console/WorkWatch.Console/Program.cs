@@ -1,12 +1,24 @@
 ﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using WorkWatch.Console.Helpers;
+using WorkWatch.Services;
 
 namespace WorkWatch.Console
 {
     internal class Program
     {
-        private static void Main(string[] args)
+        private static async Task Main(string[] args)
         {
+            if (args.Length < 1)
+            {
+                System.Console.WriteLine("Must enter api url");
+                return;
+            }
+
+            EventsService eventsService = new EventsService(args[0]);
+            var userId = await eventsService.GetUserId(System.Security.Principal.WindowsIdentity.GetCurrent().Name,
+                System.Environment.MachineName);
             System.Console.WriteLine("Listening started");
 
             var inputStateManager = new InputStateManager(500, 5000);
