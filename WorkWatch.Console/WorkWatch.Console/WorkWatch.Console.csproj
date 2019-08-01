@@ -8,10 +8,11 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>WorkWatch.Console</RootNamespace>
     <AssemblyName>WorkWatch.Console</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,6 +50,7 @@
     <Compile Include="Helpers\AllInputSources.cs" />
     <Compile Include="Helpers\KeyboardInput.cs" />
     <Compile Include="Helpers\MouseInput.cs" />
+    <Compile Include="Helpers\WindowHelper.cs" />
     <Compile Include="Helpers\WindowsHookHelper.cs" />
     <Compile Include="InputStateManager.cs" />
     <Compile Include="Program.cs" />
