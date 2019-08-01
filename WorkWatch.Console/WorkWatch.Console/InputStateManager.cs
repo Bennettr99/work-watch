@@ -8,13 +8,18 @@ namespace WorkWatch.Console
     {
         private const int UpdateFrequencyMilliseconds = 100;
         private readonly AllInputSources _inputSources;
-        private DateTime _lastInputDateTime = DateTime.MinValue;
-        private string _lastApplicationName = string.Empty;
-        private readonly WindowHelper _windowHelper;
 
-        public InputStateManager(int maxElapsedTimeMilliseconds)
+        private readonly int _maxElapsedTimeMilliseconds;
+        private readonly int _inputUpdateFrequencyMilliseconds;
+        private readonly WindowHelper _windowHelper;
+        private string _lastApplicationName = string.Empty;
+        private DateTime _lastInputDateTime = DateTime.MinValue;
+        private DateTime _lastInputUpdateDateTime = DateTime.MinValue;
+
+        public InputStateManager(int maxElapsedTimeMilliseconds, int inputUpdateFrequencyMilliseconds)
         {
             _maxElapsedTimeMilliseconds = maxElapsedTimeMilliseconds;
+            _inputUpdateFrequencyMilliseconds = inputUpdateFrequencyMilliseconds;
             _inputSources = new AllInputSources();
             _windowHelper = new WindowHelper();
             var stateChangeTimer = new Timer(UpdateFrequencyMilliseconds);
@@ -24,24 +29,36 @@ namespace WorkWatch.Console
             stateChangeTimer.Enabled = true;
         }
 
-        private readonly int _maxElapsedTimeMilliseconds;
-        public event EventHandler<DateTime> StateUpdated;
+        public event EventHandler<DateTime> InputStarted;
+        public event EventHandler<DateTime> InputUpdated;
         public event EventHandler<string> ApplicationChanged;
 
         private void UpdateInputState(object sender, ElapsedEventArgs e)
         {
             var newInputDateTime = _inputSources.GetLastInputTime();
-            if (_lastInputDateTime.AddMilliseconds(_maxElapsedTimeMilliseconds) < newInputDateTime)
+
+            if (newInputDateTime > _lastInputDateTime)
             {
-                StateUpdated?.Invoke(this, _lastInputDateTime);
+                if (_lastInputDateTime.AddMilliseconds(_maxElapsedTimeMilliseconds) < newInputDateTime)
+                {
+                    _lastInputUpdateDateTime = DateTime.Now;
+                    InputStarted?.Invoke(this, _lastInputDateTime);
+                }
+                else if (_lastInputUpdateDateTime.AddMilliseconds(_inputUpdateFrequencyMilliseconds) < DateTime.Now)
+                {
+                    _lastInputUpdateDateTime = DateTime.Now;
+                    InputUpdated?.Invoke(this, _lastInputDateTime);
+                }
+
+                _lastInputDateTime = newInputDateTime;
             }
-            _lastInputDateTime = newInputDateTime;
         }
 
         private void UpdateApplicationState(object sender, ElapsedEventArgs e)
         {
             var newApplicationName = _windowHelper.GetActiveWindowApplication();
-            if (newApplicationName != null && !_lastApplicationName.Equals(newApplicationName, StringComparison.OrdinalIgnoreCase))
+            if (newApplicationName != null &&
+                !_lastApplicationName.Equals(newApplicationName, StringComparison.OrdinalIgnoreCase))
             {
                 _lastApplicationName = newApplicationName;
                 ApplicationChanged?.Invoke(this, _lastApplicationName);

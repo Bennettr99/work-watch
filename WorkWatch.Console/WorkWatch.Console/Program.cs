@@ -9,13 +9,25 @@ namespace WorkWatch.Console
         {
             System.Console.WriteLine("Listening started");
 
-            var inputStateManager = new InputStateManager(500);
-            inputStateManager.StateUpdated += OnStateUpdated;
+            var inputStateManager = new InputStateManager(500, 5000);
+            inputStateManager.InputStarted += OnInputStarted;
+            inputStateManager.InputUpdated += OnInputUpdated;
             inputStateManager.ApplicationChanged += OnApplicationChanged;
+
             do
             {
                 // spin
             } while (System.Console.ReadKey(true).Key != ConsoleKey.Escape);
+        }
+
+        private static void OnInputStarted(object sender, DateTime startTime)
+        {
+            System.Console.WriteLine($"Input Started: {startTime:hh:mm:ss fff} {System.Security.Principal.WindowsIdentity.GetCurrent().Name}");
+        }
+
+        private static void OnInputUpdated(object sender, DateTime updateTime)
+        {
+            System.Console.WriteLine($"Input Updated: {updateTime:hh:mm:ss fff} {System.Security.Principal.WindowsIdentity.GetCurrent().Name}");
         }
 
         private static void OnApplicationChanged(object sender, string applicationName)
@@ -23,12 +35,5 @@ namespace WorkWatch.Console
             System.Console.WriteLine($"Application Name: {applicationName}");
         }
 
-        private static void OnStateUpdated(object sender, DateTime lastInputTime)
-        {
-            System.Console.WriteLine($"\rLast Input: {lastInputTime:hh:mm:ss fff} {System.Security.Principal.WindowsIdentity.GetCurrent().Name}");
-        }
-        
-
-        
     }
 }
