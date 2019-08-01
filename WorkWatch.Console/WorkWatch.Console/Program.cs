@@ -20,7 +20,7 @@ namespace WorkWatch.Console
         private static void OnStateUpdated(object sender, DateTime lastInputTime)
         {
             WindowHelper windowHelper = new WindowHelper();
-            System.Console.WriteLine($"\rLast Input: {lastInputTime:hh:mm:ss fff} {Environment.UserName} {windowHelper.GetActiveWindowApplication()}");
+            System.Console.WriteLine($"\rLast Input: {lastInputTime:hh:mm:ss fff} {System.Security.Principal.WindowsIdentity.GetCurrent().Name} {windowHelper.GetActiveWindowApplication()}");
         }
     }
 }
