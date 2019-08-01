@@ -11,16 +11,24 @@ namespace WorkWatch.Console
 
             var inputStateManager = new InputStateManager(500);
             inputStateManager.StateUpdated += OnStateUpdated;
+            inputStateManager.ApplicationChanged += OnApplicationChanged;
             do
             {
                 // spin
             } while (System.Console.ReadKey(true).Key != ConsoleKey.Escape);
         }
 
+        private static void OnApplicationChanged(object sender, string applicationName)
+        {
+            System.Console.WriteLine($"Application Name: {applicationName}");
+        }
+
         private static void OnStateUpdated(object sender, DateTime lastInputTime)
         {
-            WindowHelper windowHelper = new WindowHelper();
-            System.Console.WriteLine($"\rLast Input: {lastInputTime:hh:mm:ss fff} {System.Security.Principal.WindowsIdentity.GetCurrent().Name} {windowHelper.GetActiveWindowApplication()}");
+            System.Console.WriteLine($"\rLast Input: {lastInputTime:hh:mm:ss fff} {System.Security.Principal.WindowsIdentity.GetCurrent().Name}");
         }
+        
+
+        
     }
 }
