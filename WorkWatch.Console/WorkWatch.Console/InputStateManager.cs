@@ -17,17 +17,18 @@ namespace WorkWatch.Console
             _maxElapsedTimeMilliseconds = maxElapsedTimeMilliseconds;
             _inputSources = new AllInputSources();
             _windowHelper = new WindowHelper();
-            var threadTimer = new Timer(UpdateFrequencyMilliseconds);
-            threadTimer.Elapsed += UpdateState;
-            threadTimer.AutoReset = true;
-            threadTimer.Enabled = true;
+            var stateChangeTimer = new Timer(UpdateFrequencyMilliseconds);
+            stateChangeTimer.Elapsed += UpdateInputState;
+            stateChangeTimer.Elapsed += UpdateApplicationState;
+            stateChangeTimer.AutoReset = true;
+            stateChangeTimer.Enabled = true;
         }
 
         private readonly int _maxElapsedTimeMilliseconds;
         public event EventHandler<DateTime> StateUpdated;
         public event EventHandler<string> ApplicationChanged;
 
-        private void UpdateState(object sender, ElapsedEventArgs e)
+        private void UpdateInputState(object sender, ElapsedEventArgs e)
         {
             var newInputDateTime = _inputSources.GetLastInputTime();
             if (_lastInputDateTime.AddMilliseconds(_maxElapsedTimeMilliseconds) < newInputDateTime)
@@ -35,7 +36,10 @@ namespace WorkWatch.Console
                 StateUpdated?.Invoke(this, _lastInputDateTime);
             }
             _lastInputDateTime = newInputDateTime;
+        }
 
+        private void UpdateApplicationState(object sender, ElapsedEventArgs e)
+        {
             var newApplicationName = _windowHelper.GetActiveWindowApplication();
             if (newApplicationName != null && !_lastApplicationName.Equals(newApplicationName, StringComparison.OrdinalIgnoreCase))
             {
