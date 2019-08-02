@@ -39,7 +39,7 @@ namespace WorkWatch.Console
         {
             var newInputDateTime = _inputSources.GetLastInputTime();
 
-            if (newInputDateTime > _lastInputDateTime)
+            if (newInputDateTime.Subtract(_lastInputDateTime).TotalMilliseconds > 1000)
             {
                 if (_lastInputDateTime.AddMilliseconds(_maxElapsedTimeMilliseconds) < newInputDateTime)
                 {
