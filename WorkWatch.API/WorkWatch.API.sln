@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkWatch.API", "WorkWatch.API\WorkWatch.API.csproj", "{D29158F9-9D84-48ED-A6AE-AD86CA374CDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkWatch.API", "WorkWatch.API\WorkWatch.API.csproj", "{D29158F9-9D84-48ED-A6AE-AD86CA374CDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkWatch.Services", "WorkWatch.Services\WorkWatch.Services.csproj", "{2B399A82-2CE6-4C8B-A6EE-238873F46E8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D29158F9-9D84-48ED-A6AE-AD86CA374CDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D29158F9-9D84-48ED-A6AE-AD86CA374CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D29158F9-9D84-48ED-A6AE-AD86CA374CDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B399A82-2CE6-4C8B-A6EE-238873F46E8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B399A82-2CE6-4C8B-A6EE-238873F46E8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B399A82-2CE6-4C8B-A6EE-238873F46E8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B399A82-2CE6-4C8B-A6EE-238873F46E8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
