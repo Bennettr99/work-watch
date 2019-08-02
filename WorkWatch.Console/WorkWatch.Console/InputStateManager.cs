@@ -44,12 +44,12 @@ namespace WorkWatch.Console
                 if (_lastInputDateTime.AddMilliseconds(_maxElapsedTimeMilliseconds) < newInputDateTime)
                 {
                     _lastInputUpdateDateTime = DateTime.Now;
-                    InputStarted?.Invoke(this, _lastInputDateTime);
+                    InputStarted?.Invoke(this, newInputDateTime);
                 }
                 else if (_lastInputUpdateDateTime.AddMilliseconds(_inputUpdateFrequencyMilliseconds) < DateTime.Now)
                 {
                     _lastInputUpdateDateTime = DateTime.Now;
-                    InputUpdated?.Invoke(this, _lastInputDateTime);
+                    InputUpdated?.Invoke(this, newInputDateTime);
                 }
 
                 _lastInputDateTime = newInputDateTime;

@@ -50,13 +50,13 @@ namespace WorkWatch.Console
         private static async void OnInputStarted(object sender, DateTime startTime)
         {
             _inputId = await _eventsService.StartInput(_userId, _applicationId);
-            System.Console.WriteLine($"Input Started: {startTime:hh:mm:ss fff} {System.Security.Principal.WindowsIdentity.GetCurrent().Name}");
+            System.Console.WriteLine($"Input Started: {startTime:hh:mm:ss fff}");
         }
 
         private static async void OnInputUpdated(object sender, DateTime updateTime)
         {
             await _eventsService.UpdateInput(_inputId);
-            System.Console.WriteLine($"Input Updated: {updateTime:hh:mm:ss fff} {System.Security.Principal.WindowsIdentity.GetCurrent().Name}");
+            System.Console.WriteLine($"Input Updated: {updateTime:hh:mm:ss fff}");
         }
 
         private static async void OnApplicationChanged(object sender, string applicationName)
