@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using WorkWatch.Console.Helpers;
 using WorkWatch.Services;
@@ -20,6 +21,8 @@ namespace WorkWatch.Console
                 System.Console.WriteLine("Must enter api url");
                 return;
             }
+
+            ServicePointManager.ServerCertificateValidationCallback += (o, c, ch, er) => true;
 
             _eventsService = new EventsService(args[0]);
             var username = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
