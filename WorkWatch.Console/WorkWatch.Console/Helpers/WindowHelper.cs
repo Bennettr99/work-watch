@@ -30,7 +30,7 @@ namespace WorkWatch.Console.Helpers
         {
             var windowTitle = GetActiveWindowTitle();
 
-            return windowTitle?.Split('-')
+            return windowTitle?.Split(new [] {"- "}, StringSplitOptions.None)
                 .Select((titleSegment) => titleSegment.Trim())
                 .Last();
         }
