@@ -16,8 +16,10 @@ namespace WorkWatch.Console
         private DateTime _lastInputDateTime = DateTime.MinValue;
         private DateTime _lastInputUpdateDateTime = DateTime.MinValue;
 
-        public InputStateManager(int maxElapsedTimeMilliseconds, int inputUpdateFrequencyMilliseconds)
+        public InputStateManager(string startingApplicationName, int maxElapsedTimeMilliseconds,
+            int inputUpdateFrequencyMilliseconds)
         {
+            _lastApplicationName = startingApplicationName;
             _maxElapsedTimeMilliseconds = maxElapsedTimeMilliseconds;
             _inputUpdateFrequencyMilliseconds = inputUpdateFrequencyMilliseconds;
             _inputSources = new AllInputSources();

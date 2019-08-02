@@ -12,6 +12,7 @@ namespace WorkWatch.Console
         private static int _applicationId;
         private static int _inputId;
         private static EventsService _eventsService;
+        private static WindowHelper _windowHelper;
         private static async Task Main(string[] args)
         {
             if (args.Length < 1)
@@ -25,7 +26,11 @@ namespace WorkWatch.Console
                 System.Environment.MachineName);
             System.Console.WriteLine($"Listening started: {_userId}");
 
-            var inputStateManager = new InputStateManager(500, 5000);
+            _windowHelper = new WindowHelper();
+            var startingApplicationName = _windowHelper.GetActiveWindowApplication();
+            _applicationId = await GetApplicationId(startingApplicationName);
+
+            var inputStateManager = new InputStateManager(startingApplicationName, 500, 5000);
             inputStateManager.InputStarted += OnInputStarted;
             inputStateManager.InputUpdated += OnInputUpdated;
             inputStateManager.ApplicationChanged += OnApplicationChanged;
@@ -50,8 +55,13 @@ namespace WorkWatch.Console
 
         private static async void OnApplicationChanged(object sender, string applicationName)
         {
-            _applicationId = await _eventsService.GetApplicationId(_userId, applicationName);
+            _applicationId = await GetApplicationId(applicationName);
             System.Console.WriteLine($"Application Name: {applicationName}");
+        }
+
+        private static async Task<int> GetApplicationId(string applicationNam)
+        {
+            return await _eventsService.GetApplicationId(_userId, applicationNam);
         }
 
     }
