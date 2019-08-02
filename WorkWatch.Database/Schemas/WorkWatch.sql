@@ -1,0 +1,2 @@
+CREATE SCHEMA [WorkWatch]
+GO

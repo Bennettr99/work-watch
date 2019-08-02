@@ -1,0 +1,26 @@
+USE [WorkWatch]
+GO
+
+/****** Object:  Table [WorkWatch].[User]    Script Date: 08/02/2019 8:06:09 AM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [WorkWatch].[Application](
+	[ApplicationID] [INT] IDENTITY(1,1) NOT NULL,
+	[UserID] [INT] NOT NULL,
+	[Name] [VARCHAR](256) NOT NULL,
+	[Time] [DATETIME2] NOT NULL,
+ CONSTRAINT [PK_WorkWatch_Application] PRIMARY KEY CLUSTERED 
+(
+	[ApplicationID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+ALTER TABLE [WorkWatch].[Application]  WITH CHECK ADD  CONSTRAINT [FK_WorkWatch_Application_User_UserID] FOREIGN KEY([UserID])
+REFERENCES [WorkWatch].[User] ([UserID])
+GO
