@@ -17,7 +17,7 @@ EXEC WorkWatch.Input_I @UserID = 1, @ApplicationID = 1
 
 CreatedBy	: BennettR, NicB
 CreatedOn	: 20190802    
-Description	: Insert into Input table  
+Description	: Insert into Input table and return new InputID
 
 ModifyOn	: 
 ModifyBy	: 
@@ -26,7 +26,7 @@ Description	:
 
 =============================================
 */
-CREATE PROCEDURE [WorkWatch].[Input_I]
+CREATE OR ALTER PROCEDURE [WorkWatch].[Input_I]
     @UserID INT,
 	@ApplicationID INT
 
@@ -48,6 +48,7 @@ BEGIN
 		StartTime,
 		EndTime
     )
+	OUTPUT INSERTED.InputID
     VALUES
     (
 		@UserID, 

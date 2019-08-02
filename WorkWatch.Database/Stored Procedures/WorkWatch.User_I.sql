@@ -17,7 +17,7 @@ EXEC WorkWatch.User_I @Username = 'Domain/User'
 
 CreatedBy	: BennettR, NicB
 CreatedOn	: 20190802    
-Description	: Insert into User table  
+Description	: Insert into User table and return new UserID
 
 ModifyOn	: 
 ModifyBy	: 
@@ -26,7 +26,7 @@ Description	:
 
 =============================================
 */
-CREATE PROCEDURE [WorkWatch].[User_I]
+CREATE OR ALTER PROCEDURE [WorkWatch].[User_I]
     @Username VARCHAR(256),
     @MachineName VARCHAR(256)
 AS
@@ -45,6 +45,7 @@ BEGIN
         Username,
         MachineName
     )
+	OUTPUT INSERTED.UserID
     VALUES
     (
 		@Username, 

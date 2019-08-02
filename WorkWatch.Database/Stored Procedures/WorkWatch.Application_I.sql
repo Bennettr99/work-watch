@@ -17,7 +17,7 @@ EXEC WorkWatch.Application_I @UserID = 1, @Name = 'Google Chrome'
 
 CreatedBy	: BennettR, NicB
 CreatedOn	: 20190802    
-Description	: Insert into Application table  
+Description	: Insert into Application table and return new ApplicationID
 
 ModifyOn	: 
 ModifyBy	: 
@@ -26,7 +26,7 @@ Description	:
 
 =============================================
 */
-CREATE PROCEDURE [WorkWatch].[Application_I]
+CREATE OR ALTER PROCEDURE [WorkWatch].[Application_I]
     @UserID INT,
 	@Name VARCHAR(256)
 
@@ -47,6 +47,7 @@ BEGIN
 		Name,
 		Time
     )
+	OUTPUT INSERTED.ApplicationID
     VALUES
     (
 		@UserID, 
