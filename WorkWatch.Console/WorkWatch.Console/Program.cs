@@ -8,6 +8,10 @@ namespace WorkWatch.Console
 {
     internal class Program
     {
+        private static int _userId;
+        private static int _applicationId;
+        private static int _inputId;
+        private static EventsService _eventsService;
         private static async Task Main(string[] args)
         {
             if (args.Length < 1)
@@ -16,10 +20,10 @@ namespace WorkWatch.Console
                 return;
             }
 
-            EventsService eventsService = new EventsService(args[0]);
-            var userId = await eventsService.GetUserId(System.Security.Principal.WindowsIdentity.GetCurrent().Name,
+            _eventsService = new EventsService(args[0]);
+            _userId = await _eventsService.GetUserId(System.Security.Principal.WindowsIdentity.GetCurrent().Name,
                 System.Environment.MachineName);
-            System.Console.WriteLine("Listening started");
+            System.Console.WriteLine($"Listening started: {_userId}");
 
             var inputStateManager = new InputStateManager(500, 5000);
             inputStateManager.InputStarted += OnInputStarted;
@@ -32,18 +36,21 @@ namespace WorkWatch.Console
             } while (System.Console.ReadKey(true).Key != ConsoleKey.Escape);
         }
 
-        private static void OnInputStarted(object sender, DateTime startTime)
+        private static async void OnInputStarted(object sender, DateTime startTime)
         {
+            _inputId = await _eventsService.StartInput(_userId, _applicationId);
             System.Console.WriteLine($"Input Started: {startTime:hh:mm:ss fff} {System.Security.Principal.WindowsIdentity.GetCurrent().Name}");
         }
 
-        private static void OnInputUpdated(object sender, DateTime updateTime)
+        private static async void OnInputUpdated(object sender, DateTime updateTime)
         {
+            await _eventsService.UpdateInput(_inputId);
             System.Console.WriteLine($"Input Updated: {updateTime:hh:mm:ss fff} {System.Security.Principal.WindowsIdentity.GetCurrent().Name}");
         }
 
-        private static void OnApplicationChanged(object sender, string applicationName)
+        private static async void OnApplicationChanged(object sender, string applicationName)
         {
+            _applicationId = await _eventsService.GetApplicationId(_userId, applicationName);
             System.Console.WriteLine($"Application Name: {applicationName}");
         }
 
