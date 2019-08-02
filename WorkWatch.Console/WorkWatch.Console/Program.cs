@@ -30,7 +30,7 @@ namespace WorkWatch.Console
             var startingApplicationName = _windowHelper.GetActiveWindowApplication();
             _applicationId = await GetApplicationId(startingApplicationName);
 
-            var inputStateManager = new InputStateManager(startingApplicationName, 500, 5000);
+            var inputStateManager = new InputStateManager(startingApplicationName, 120000, 5000);
             inputStateManager.InputStarted += OnInputStarted;
             inputStateManager.InputUpdated += OnInputUpdated;
             inputStateManager.ApplicationChanged += OnApplicationChanged;
