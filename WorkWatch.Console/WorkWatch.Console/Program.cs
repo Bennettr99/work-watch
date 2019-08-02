@@ -22,13 +22,16 @@ namespace WorkWatch.Console
             }
 
             _eventsService = new EventsService(args[0]);
-            _userId = await _eventsService.GetUserId(System.Security.Principal.WindowsIdentity.GetCurrent().Name,
-                System.Environment.MachineName);
-            System.Console.WriteLine($"Listening started: {_userId}");
+            var username = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            var machineName = System.Environment.MachineName;
+            _userId = await _eventsService.GetUserId(username,
+                machineName);
 
             _windowHelper = new WindowHelper();
             var startingApplicationName = _windowHelper.GetActiveWindowApplication();
             _applicationId = await GetApplicationId(startingApplicationName);
+
+            System.Console.WriteLine($"Listening started for {username} on {machineName} with {startingApplicationName}");
 
             var inputStateManager = new InputStateManager(startingApplicationName, 120000, 5000);
             inputStateManager.InputStarted += OnInputStarted;
