@@ -63,6 +63,7 @@ namespace WorkWatch.Console
                 !_lastApplicationName.Equals(newApplicationName, StringComparison.OrdinalIgnoreCase))
             {
                 _lastApplicationName = newApplicationName;
+                _lastInputUpdateDateTime = _lastInputDateTime = DateTime.Now;
                 ApplicationChanged?.Invoke(this, _lastApplicationName);
             }
         }

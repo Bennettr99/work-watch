@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using WorkWatch.Console.Helpers;
 using WorkWatch.Services;
@@ -63,6 +64,7 @@ namespace WorkWatch.Console
         {
             _applicationId = await GetApplicationId(applicationName);
             System.Console.WriteLine($"Application Name: {applicationName}");
+            OnInputStarted(sender, DateTime.Now);
         }
 
         private static async Task<int> GetApplicationId(string applicationNam)
