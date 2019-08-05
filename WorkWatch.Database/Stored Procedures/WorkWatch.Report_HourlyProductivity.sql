@@ -50,8 +50,8 @@ DECLARE @OutputHourlyProductivity TABLE (
 	ActiveTime INT, 
 	TotalTime INT, 
 	Percentage DECIMAL,
-	HourStartTime DATETIME2,
-	HourEndTime DATETIME2
+	HourStartTime TIME,
+	HourEndTime TIME
 )
 DECLARE @PeriodStartTime DATETIME2;
 DECLARE @PeriodEndTime DATETIME2;
@@ -113,7 +113,7 @@ SELECT ohp.Username,
        ohp.HourStartTime,
        ohp.HourEndTime
 FROM @OutputHourlyProductivity ohp
-ORDER BY ohp.HourStartTime ASC, ohp.Username
+ORDER BY ohp.Username, ohp.HourStartTime ASC
 
 --End of Code
 END;
